@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>mainBoard</title>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-g8bh4cEKm6lHg6nZnVXQc6m3qfOiIRnIYy08iInrbu48FYZ5kI+GduNAlZSfPg+C" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+U6QL75St5mzRGByw1iW7jBhKkM6VY" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+U6QL75St5mzRGByw1iW7jBhKkM6VY" crossorigin="anonymous">
+
+    <style>
+        /* custom styles */
+        .board-table-container {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .board-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .board-table th,
+        .board-table td {
+            padding: 12px 15px;
+            text-align: center;
+        }
+
+        .board-table thead th {
+            background-color: #006699;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .board-table tbody tr:nth-of-type(even) {
+            background-color: #c4c1c1;
+        }
+
+        .board-table tbody tr:hover {
+            background-color: #ececec;
+        }
+
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .pagination a {
+            color: black;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            margin-right: 5px;
+        }
+
+        .current-page {
+            color: white;
+            background-color: #007bff;
+            border: 1px solid #007bff;
+            padding: 5px 10px;
+            margin-right: 5px;
+        }
+
+        .styled-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+            text-align: center;
+        }
+
+        .styled-table thead th {
+            background-color: #006699;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #c4c1c1;
+        }
+
+        .styled-table tbody tr:hover {
+            background-color: #ececec;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="topBanner" style="background-color: #eee; padding: 10px;">
+    <a class="btn btn-primary" style="margin-right: 10px;">자유 게시판</a>
+    <a class="btn btn-secondary">글쓰기</a>
+</div>
+
+<div class="container mt-3 board-table-container">
+    <table class="table table-striped board-table">
+        <thead>
+        <tr>
+            <th scope="col">아이디</th>
+            <th scope="col">제목</th>
+            <th scope="col">작성시간</th>
+            <th scope="col">조회수</th>
+            <th scope="col">좋아요 숫자</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="board: ${boardList}">
+            <td th:text="${board.boardName}"></td>
+            <td><a class="text-decoration-none" th:href="@{|/read/${board.id}|}" th:text="${board.boardTitle}"></a></td>
+            <td th:text="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${board.boardHits}"></td>
+            <td th:text="${board.likeCount}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="footBody">
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>아이디</th>
+            <th>제목</th>
+            <th>작성시간</th>
+            <th>조회수</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="board: ${boardPage}">
+            <td th:text="${board.boardName}"></td>
+            <td><a th:href="@{|/read/${board.id}|}" th:text="${board.boardTitle}"></a></td>
+            <td th:text="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${board.boardHits}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- 페이징 -->
+
+    <div class="pagination">
+        <!--첫페이지로 이동-->
+        <a th:href="@{/list/board-list(page=1)}">맨앞으로</a>
+        <a th:href="${boardPage.first} ? '#' : '/list/board-list?page=' + ${boardPage.number}" class="page-link">pre</a>
+        <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+            <span th:if="${page == boardPage.number + 1}" class="current-page" th:text="${page}"></span>
+            <span th:unless="${page == boardPage.number +1}">
+                <a th:href="@{/list/board-list(page=${page})}" class="page-link" th:text="${page}"></a>
+            </span>
+        </span>
+        <a th:href="${boardPage.last} ? '#' : '/list/board-list?page='+ ${boardPage.number +2}" class="page-link">next</a>
+        <a th:href="@{/list/board-list(page=${boardPage.totalPages})}">마지막페이지</a>
+    </div>
+</div>
+
+</body>
+</html>

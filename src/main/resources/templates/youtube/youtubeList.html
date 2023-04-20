@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>youtubeList</title>
+</head>
+
+<body>
+
+<table>
+    <tr>
+        <th>유튜브 리스트</th>
+    </tr>
+    <tr th:each="board:${youtubeList}">
+        <td><iframe width="560" height="315" th:src="@{'https://www.youtube.com/embed/' + ${board.getYoutubeId()}}" frameborder="0" allowfullscreen></iframe></td>
+        <td th:text="${board.getYoutubeId()}"></td>
+        <td th:text="${board.getYoutubeTitle()}"></td>
+        <td>${board.getYoutubeId()}</td>
+    </tr>
+</table>
+
+
+
+</body>
+</html>

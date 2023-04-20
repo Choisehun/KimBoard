@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ModifyForm</title>
+</head>
+<body>
+
+<table>
+
+    <form th:action="@{/modify/updates}"  method="post">
+        <tr>
+            <th>자유 게시판</th>
+        </tr>
+        <tr>
+            <input type="hidden" name="boardId" th:value="${modifyDetail.id} ">
+            <td><input name="boardTitle"></td>
+            <td th:value="${modifyDetail.boardName}"></td>
+            <td th:text="${#temporals.format(modifyDetail.createdTime, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${modifyDetail.boardHits}"></td>
+            <td><hr></td>
+        </tr>
+        <tr>
+            <td><textarea name="boardContent" cols="30" rows="20"></textarea></td>
+        </tr>
+        <tr>
+            <td th:text="${modifyDetail.likeCount}"></td>
+            <td th:text="${modifyDetail.badCount}"></td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit">확인</button>
+            </td>
+            <td>
+                <button onclick="main()">목록</button>
+            </td>
+        </tr>
+    </form>
+    </tr>
+
+
+</table>
+
+
+
+</body>
+
+<script>
+    function main(){
+        location.href="/list/board-list";
+    }
+
+
+</script>
+
+</html>

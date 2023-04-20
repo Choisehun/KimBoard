@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>reply Modfiy Form</title>
+</head>
+<body>
+
+
+      <form th:action="@{|/modify/update/${replyModify.id}|}" method="post">
+        <!--  <input type="hidden" name="replyId" th:value="${replyModify.id}"> -->
+        <input type="text" name="content" placeholder="수정할 내용 입력">
+        <button type="submit">수정완료</button>
+      </form>
+
+
+</body>
+</html>

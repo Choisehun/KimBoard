@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>writeForm</title>
+</head>
+<body>
+<form action="/write/writer" method="post">
+    아이디: <a th:text="${username}"></a>
+    <input type="hidden" name="boardName" th:value="${username}">
+    제목: <input name="boardTitle">
+    내용: <textarea name="boardContent" cols="30" rows="20"></textarea>
+    <button type="submit">ok</button>
+</form>
+
+</body>
+</html>

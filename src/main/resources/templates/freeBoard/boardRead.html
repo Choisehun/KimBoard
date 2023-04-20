@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세 페이지</title>
+<style>
+    body {
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+    }
+    table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        background-color: #fff;
+        box-shadow: 0px 0px 10px #999;
+    }
+
+    table th {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+    }
+
+    table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    table tr:first-child td {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    table tr:last-child td {
+        border-top: 1px solid #ddd;
+    }
+
+    table tr:last-child td button {
+        margin-right: 10px;
+    }
+
+    table tr:last-child td form {
+        margin-top: 10px;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    button:hover {
+        background-color: #3e8e41;
+    }
+
+    input[type="text"], input[type="submit"] {
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #3e8e41;
+    }
+    .btn-container {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+
+
+</style>
+
+</head>
+
+<body>
+<table>
+    <thead>
+    <tr>
+        <th colspan="4">자유 게시판</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${boardRead.boardTitle}"></td>
+        <td th:text="${boardRead.boardName}"></td>
+        <td th:text="${#temporals.format(boardRead.createdTime, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${boardRead.boardHits}"></td>
+    </tr>
+    <tr>
+        <td colspan="4"><hr></td>
+    </tr>
+    <tr>
+        <td colspan="4" th:text="${boardRead.boardContent}"></td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <div class="btn-container">
+                <button name="like" onclick="updateCount(true)">
+                    <span th:text="${boardRead.likeCount}"></span>
+                </button>
+                <button name="bad" onclick="updateCount(false)">
+                    <span th:text="${boardRead.badCount}"></span>
+                </button>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <button onclick="main()">목록</button>
+            <button onclick="modify()">수정</button>
+            <button onclick="del()">삭제</button>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <table>
+                <thead>
+                <tr>
+                    <th colspan="4">댓글</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="reply: ${replyList}">
+                    <td th:text="${reply.replyName}"></td>
+                    <td th:text="${reply.replyContent}"></td>
+
+                    <form th:action="@{|/modify/${reply.id}|}">
+                        <td><button>수정</button></td>
+                    </form>
+
+
+                    <form th:action="@{|/delete/${reply.id}|}" method="post">
+                    <td><button type="submit">삭제</button></td>
+                    </form>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <form th:action="@{|/write/reply/${boardRead.id}|}" method="post">
+                <table>
+                    <thead>
+                    <tr>
+                        <th colspan="2">댓글쓰기</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><input name="replyContent"></td>
+                        <td><input type="submit"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<script>
+    function main(){
+        location.href="/list/board-list";
+    }
+
+    function del(){
+        const id= [[${boardRead.id}]];
+        location.href = "/delete/" + id;
+    }
+
+    function modify(){
+        const id= [[${boardRead.id}]];
+        location.href = "/modify/update/" + id;
+    }
+
+    function updateCount(isLike){
+        const id= [[${boardRead.id}]];
+        const type = isLike ? 'like' : 'bad';
+        location.href=`/test/update/${type}/${id}`;
+    }
+
+
+
+
+
+</script>
+
+
+
+</body>
+</html>

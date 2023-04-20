@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>youtube</title>
+</head>
+<body>
+
+<form action="/youtube/write" method="post">
+    제목 : <input name="youtubeTitle">
+    아이디: <p th:text="${username}"></p>
+    <!--<iframe width="560" height="315" src="https://www.youtube.com/embed/dP95z1QgnXk" frameborder="0" allowfullscreen></iframe>-->
+    유튜브 주소 ID입력 : https://www.youtube.com/embed/ <input type="text" name="youtubeId">
+    <input type="submit" value="ok">
+</form>
+
+
+</body>
+</html>

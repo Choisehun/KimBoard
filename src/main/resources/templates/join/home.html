@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>home</title>
+</head>
+<body>
+
+
+<a href="/users/logout">로그아웃</a>
+<a href="/write/write-form">글쓰기</a>
+<a href="/list/board-list">자유 게시판</a>
+<a href="/youtube/youtubeWriteForm">youtube글쓰기</a>
+<a href="/youtubeList/youtube-List">유튜브 리스트</a>
+<p th:text="${usernames}"></p> 님 반갑습니다.
+
+</body>
+
+<script>
+  window.opener.location.href = '/users/homeForm';
+  window.close();
+</script>
+
+</html>
+
